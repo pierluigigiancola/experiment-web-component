@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <title>Shadow CSS Encapsulation</title>
+    <script>
+        // Share single CSS Object
+
+        // INITIALIZE SHADOW DOM
+        window.onload = () => {
+            const theme = new CSSStyleSheet();
+            theme.replaceSync("span { color: var(--span-color, purple); border: 4px dotted purple;}");
+
+            const rootOpen = document.querySelector('#root-open');
+            const rootClose = document.querySelector('#root-close');
+
+            const shadowRootOpen = rootOpen.attachShadow({ mode: 'open' });
+            const shadowRootClose = rootClose.attachShadow({ mode: 'closed' });
+
+            const span = document.createElement('span');
+            span.textContent = "I'm in the shadow DOM";
+
+            const spanClose = span.cloneNode(true);
+            spanClose.textContent += ' (close) even if closed, I can read CSS variables from light DOM!';
+
+            const spanOpen = span.cloneNode(true);
+            spanOpen.textContent += ' (open) I can read CSS variables from light DOM!';
+
+            shadowRootOpen.appendChild(spanOpen);
+            shadowRootClose.appendChild(spanClose);
+
+            shadowRootOpen.adoptedStyleSheets = [theme];
+            shadowRootClose.adoptedStyleSheets = [theme];
+        }
+    </script>
+
+    <style>
+        :root {
+            --span-color: red;
+        }
+
+        .stack {
+            display: grid;
+            gap: 8px;
+        }
+
+        span {
+            border: 1px solid black;
+            color: var(--span-color);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="stack">
+        <div id="root-open"></div>
+        <div id="root-close"></div>
+        <span>I'm in the light!</span>
+
+        <div>
+            <label for="color">Change Colot</label>
+            <input type="color" name="color"
+                onchange="document.querySelector(':root').style.setProperty('--span-color', this.value)" />
+        </div>
+    </div>
+</body>
+
+</html>
