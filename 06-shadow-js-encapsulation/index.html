@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <title>Shadow JS Encapsulation</title>
+
+    <script>
+        // INITIALIZE SHADOW DOM
+        window.onload = () => {
+            const rootOpen = document.querySelector('#root-open');
+            const rootClose = document.querySelector('#root-close');
+
+            const shadowRootOpen = rootOpen.attachShadow({ mode: 'open' });
+            const shadowRootClose = rootClose.attachShadow({ mode: 'closed' });
+
+            const span = document.createElement('span');
+            span.textContent = "I'm in the shadow DOM";
+
+            const spanClose = span.cloneNode(true);
+            spanClose.textContent += ' (close)';
+
+            const spanOpen = span.cloneNode(true);
+            spanOpen.textContent += ' (open)';
+
+            shadowRootOpen.appendChild(spanOpen);
+            shadowRootClose.appendChild(spanClose);
+        }
+    </script>
+    <script>
+        // EVENT HANDLER
+        function uppercaseLightSpan() {
+            const spans = document.querySelectorAll('span');
+            spans.forEach(span => {
+                span.textContent = span.textContent.toUpperCase();
+            });
+        }
+
+        function uppercaseShadowSpan() {
+            const shadowRoots = Array.from(document.querySelectorAll("div[id*='root']"));
+            shadowRoots.forEach(root => {
+                const spanIterable = root.shadowRoot.querySelectorAll('span');
+                spanIterable.forEach(span => {
+                    span.textContent = span.textContent.toUpperCase();
+                });
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="root-open"></div>
+    <div id="root-close"></div>
+    <span>I'm in the light!</span>
+
+    <div>
+        <button id="up-light" onclick="uppercaseLightSpan()">
+            Uppercase all span element in document
+        </button>
+        <button id="up-shadow" onclick="uppercaseShadowSpan()">
+            Uppercase all span element in shadow DOM
+        </button>
+        <button onclick="location.reload()">
+            reload page
+        </button>
+    </div>
+</body>
+
+</html>
