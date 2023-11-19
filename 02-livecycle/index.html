@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <title>Live Cycle</title>
+    <script src="./live-cycle.js"></script>
+    <script>
+        function handleAdopt(e) {
+            if (e.checked) {
+                const liveCycle = document.createElement("live-cycle");
+                document.body.appendChild(liveCycle);
+            } else {
+                const liveCycle = document.querySelector("live-cycle");
+                liveCycle.parentElement.removeChild(liveCycle);
+            }
+        }
+    </script>
+
+    <script>
+        function handleAdopt(e) {
+            const frame = document.getElementsByTagName("iframe")[0];
+            if (e.checked) {
+                const liveCycle = document.querySelector("live-cycle");
+                frame.contentWindow.document.adoptNode(liveCycle);
+            } else {
+                const liveCycle = frame.contentWindow.document.querySelector("live-cycle");
+                document.adoptNode(liveCycle);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <label for="mount">mounted</label>
+    <input checked name="mount" type="checkbox" onchange="handleAdopt(this)" />
+
+    <label for="adopt">moved in iframe</label>
+    <input name="adopt" type="checkbox" onchange="handleAdopt(this)" />
+
+    <br />
+
+    <label for="color">color pick</label>
+    <input name="color" type="color"
+        onchange="document.querySelector('live-cycle').setAttribute('color', this.value)" />
+
+    <live-cycle />
+
+    <div>
+        <iframe src="./iframe.html" width="100" height="100"></iframe>
+    </div>
+</body>
+
+</html>
