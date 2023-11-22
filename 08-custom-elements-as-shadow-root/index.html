@@ -19,13 +19,13 @@
         <fieldset>
             <legend>Color</legend>
             <input type="color" name="color"
-                onchange="document.querySelector('pg-shape').setAttribute('color', this.value)" />
+                oninput="document.querySelector('pg-shape').setAttribute('color', this.value)" />
         </fieldset>
 
         <fieldset>
             <legend>Size</legend>
             <input type="range" name="size" min="10" max="100"
-                onchange="document.querySelector('pg-shape').setAttribute('size', this.value)" />
+                oninput="document.querySelector('pg-shape').setAttribute('size', this.value)" />
         </fieldset>
 
     </form>
