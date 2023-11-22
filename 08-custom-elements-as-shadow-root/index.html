@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <title>Shape</title>
+    <script src="./pg-shape.js"></script>
+</head>
+
+<body>
+    <form id="controls" style="display: flex;">
+        <fieldset
+            oninput="document.querySelector('pg-shape').setAttribute('shape', this.querySelector('input[name=shape]:checked').value)">
+            <legend>Shape</legend>
+            <input type="radio" id="shape-circle" name="shape" value="circle">
+            <label for="shape-circle">Circle</label><br />
+            <input type="radio" id="shape-square" name="shape" value="square">
+            <label for="shape-square">Square</label><br />
+        </fieldset>
+
+        <fieldset>
+            <legend>Color</legend>
+            <input type="color" name="color"
+                onchange="document.querySelector('pg-shape').setAttribute('color', this.value)" />
+        </fieldset>
+
+        <fieldset>
+            <legend>Size</legend>
+            <input type="range" name="size" min="10" max="100"
+                onchange="document.querySelector('pg-shape').setAttribute('size', this.value)" />
+        </fieldset>
+
+    </form>
+    <pg-shape />
+</body>
+
+</html>
